@@ -13,7 +13,6 @@ export const App = () => {
   const [page, setPage] = useState(0);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [lastPage, setLastPage] = useState(0);
   const [error, setError] = useState(null);
   const [modal, setModal] = useState({
     showModal: false,
@@ -25,15 +24,11 @@ export const App = () => {
     setInputValue(event.target.value);
   };
 
-  const onClickClear = () => {
-    setInputValue('');
-  };
-
   const handleSubmit = event => {
-    event.preventDefault(); 
+    event.preventDefault();
 
     if (inputValue === '') {
-      alert('Please enter your query'); 
+      alert('Please enter your query');
       return;
     }
 
@@ -60,19 +55,18 @@ export const App = () => {
     if (page === 0) return;
 
     const fetchImagesByQuery = async searchQuery => {
-      setIsLoading(true); 
+      setIsLoading(true);
       setError(null);
       setNoResults(false);
 
       try {
         const response = await apiService(searchQuery, page);
         setImages(prevState => [...prevState, ...response]);
-        setLastPage(Math.ceil(response / 12));
         response.totalHits === 0 && setNoResults(true);
       } catch (error) {
         setError(error);
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     };
 
@@ -84,13 +78,15 @@ export const App = () => {
       <Searchbar
         onSubmit={handleSubmit}
         onChange={handleChange}
-        onClickClear={onClickClear}
         inputValue={inputValue}
       />
 
       {error && (
         <p className="alertStyle">Something went wrong: {error.message}</p>
       )}
+
+      {/* якщо результатів немає, то відображаємо сповіщення */}
+      {noResults && <p className="alertStyle">No results found</p>}
 
       {isLoading && <Loader />}
       <ImageGallery images={images} onImageClick={handleImageClick} />
@@ -100,7 +96,6 @@ export const App = () => {
       ) : (
         <div style={{ height: 40 }}></div>
       )}
-
 
       {modal.showModal && (
         <Modal onClose={toggleModal} largeImageURL={modal.largeImageURL} />
