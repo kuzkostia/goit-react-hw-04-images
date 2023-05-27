@@ -13,13 +13,13 @@ export const App = () => {
   const [page, setPage] = useState(0);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [setLastPage] = useState(0);
+  const [lastPage, setLastPage] = useState(0);
   const [error, setError] = useState(null);
   const [modal, setModal] = useState({
     showModal: false,
     largeImageURL: '',
   });
-  const [setNoResults] = useState(false);
+  const [noResults, setNoResults] = useState(false);
 
   const handleChange = event => {
     setInputValue(event.target.value);
@@ -48,7 +48,7 @@ export const App = () => {
   };
 
   const toggleModal = () => {
-    setModal(prevState => ({ ...prevState, showModal: !prevState.showModal })); 
+    setModal(prevState => ({ ...prevState, showModal: !prevState.showModal })); // змінюємо значення showModal на протилежне
   };
 
   const handleImageClick = largeImageURL => {
@@ -100,6 +100,7 @@ export const App = () => {
       ) : (
         <div style={{ height: 40 }}></div>
       )}
+
 
       {modal.showModal && (
         <Modal onClose={toggleModal} largeImageURL={modal.largeImageURL} />
