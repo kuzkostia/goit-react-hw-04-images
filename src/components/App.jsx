@@ -13,7 +13,6 @@ export const App = () => {
   const [page, setPage] = useState(0);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [lastPage, setLastPage] = useState(0);
   const [error, setError] = useState(null);
   const [modal, setModal] = useState({
     showModal: false,
@@ -30,21 +29,20 @@ export const App = () => {
   };
 
   const handleSubmit = event => {
-    event.preventDefault(); // зупиняємо перезавантаження сторінки
+    event.preventDefault(); 
 
     if (inputValue === '') {
-      alert('Please enter your query'); // сповіщення про пустий запит
+      alert('Please enter your query'); 
       return;
     }
 
-    if (query === inputValue) return; // якщо запит не змінився, то нічого не робимо
+    if (query === inputValue) return;
     setImages([]);
     setQuery(inputValue);
     setPage(1);
   };
 
   const handleLoadMore = () => {
-    // функція для кнопки "Load more"
     setPage(prevState => prevState + 1);
   };
 
@@ -52,7 +50,6 @@ export const App = () => {
     setModal(prevState => ({ ...prevState, showModal: !prevState.showModal })); // змінюємо значення showModal на протилежне
   };
 
-  // функція для відкриття модального вікна
   const handleImageClick = largeImageURL => {
     setModal(prevState => ({ ...prevState, largeImageURL }));
     toggleModal();
@@ -62,19 +59,19 @@ export const App = () => {
     if (page === 0) return;
 
     const fetchImagesByQuery = async searchQuery => {
-      setIsLoading(true); // показуємо лоадер
-      setError(null); // очищаємо помилку
-      setNoResults(false); // очищаємо сповіщення про відсутність результатів
+      setIsLoading(true); 
+      setError(null);
+      setNoResults(false);
 
       try {
         const response = await apiService(searchQuery, page);
         setImages(prevState => [...prevState, ...response]);
         setLastPage(Math.ceil(response / 12));
-        response.totalHits === 0 && setNoResults(true); // якщо результатів немає, то відображаємо сповіщення
+        response.totalHits === 0 && setNoResults(true);
       } catch (error) {
         setError(error);
       } finally {
-        setIsLoading(false); // прибираємо лоадер
+        setIsLoading(false); 
       }
     };
 
@@ -90,23 +87,19 @@ export const App = () => {
         inputValue={inputValue}
       />
 
-      {/* якщо є помилка, то відображаємо сповіщення */}
       {error && (
         <p className="alertStyle">Something went wrong: {error.message}</p>
       )}
 
-      {/* якщо завантаження, то відображаємо лоадер */}
       {isLoading && <Loader />}
       <ImageGallery images={images} onImageClick={handleImageClick} />
 
-      {/* якщо є результати і не завантаження, то відображаємо кнопку "Load more" */}
       {images.length >= 12 && !isLoading && !error ? (
         <Button label="Load more" handleLoadMore={handleLoadMore} />
       ) : (
         <div style={{ height: 40 }}></div>
       )}
 
-      {/* якщо showModal === true, то відображаємо модальне вікно */}
       {modal.showModal && (
         <Modal onClose={toggleModal} largeImageURL={modal.largeImageURL} />
       )}
