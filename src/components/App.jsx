@@ -13,6 +13,7 @@ export const App = () => {
   const [page, setPage] = useState(0);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [lastPage, setLastPage] = useState(0);
   const [error, setError] = useState(null);
   const [modal, setModal] = useState({
     showModal: false,
@@ -47,7 +48,7 @@ export const App = () => {
   };
 
   const toggleModal = () => {
-    setModal(prevState => ({ ...prevState, showModal: !prevState.showModal })); // змінюємо значення showModal на протилежне
+    setModal(prevState => ({ ...prevState, showModal: !prevState.showModal })); 
   };
 
   const handleImageClick = largeImageURL => {
