@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const KEY = '34667101-9710bd17cfb75e50a5c2acb1d';
-const BASE_URL = 'https://pixabay.com/api';
 
 const apiService = async (query, page) => {
   const { data } = await axios.get(
