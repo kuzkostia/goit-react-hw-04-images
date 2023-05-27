@@ -13,13 +13,13 @@ export const App = () => {
   const [page, setPage] = useState(0);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [lastPage, setLastPage] = useState(0);
+  const [setLastPage] = useState(0);
   const [error, setError] = useState(null);
   const [modal, setModal] = useState({
     showModal: false,
     largeImageURL: '',
   });
-  const [noResults, setNoResults] = useState(false);
+  const [setNoResults] = useState(false);
 
   const handleChange = event => {
     setInputValue(event.target.value);
