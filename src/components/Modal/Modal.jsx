@@ -1,34 +1,41 @@
 import { useEffect } from 'react';
-import css from './Modal.module.css';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import css from './Modal.module.css';
 
-const Modal = ({ onClose, largeImageURL }) => {
+const modalRoot = document.querySelector('#modal-root');
+
+function Modal({ largeImageURL, onToggleModal }) {
   useEffect(() => {
     const handleKeyDown = e => {
       if (e.code === 'Escape') {
-        onClose();
+        onToggleModal();
       }
     };
-
-    window.addEventListener('keydown', handleKeyDown); 
-
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown); 
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [onClose]);
+  }, [onToggleModal]);
 
-  return (
-    <div className={css.overlay} onClick={onClose}>
+  const handleBackdropClick = e => {
+    if (e.currentTarget === e.target) {
+      onToggleModal();
+    }
+  };
+
+  return createPortal(
+    <div className={css.backdrop} onClick={handleBackdropClick}>
       <div className={css.modal}>
-        <img className={css.modal__image} src={largeImageURL} alt="" />
+        <img src={largeImageURL} alt="" />
       </div>
-    </div>
+    </div>,
+    modalRoot
   );
-};
+}
 
 Modal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  largeImageURL: PropTypes.string.isRequired,
+  onToggleModal: PropTypes.func.isRequired,
 };
 
 export default Modal;
