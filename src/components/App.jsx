@@ -42,13 +42,13 @@ export const App = () => {
     setPage(prevState => prevState + 1);
   };
 
-  const onOpenModal = e => {
-    setLargeImageURL(e.target.dataset.source);
-    toggleModal();
+  const toggleModal = () => {
+    setModal(prevState => ({ ...prevState, showModal: !prevState.showModal })); // змінюємо значення showModal на протилежне
   };
 
-  const toggleModal = () => {
-    setShowModal(!showModal);
+  const handleImageClick = largeImageURL => {
+    setModal(prevState => ({ ...prevState, largeImageURL }));
+    toggleModal();
   };
 
   useEffect(() => {
@@ -85,10 +85,11 @@ export const App = () => {
         <p className="alertStyle">Something went wrong: {error.message}</p>
       )}
 
+      {/* якщо результатів немає, то відображаємо сповіщення */}
       {noResults && <p className="alertStyle">No results found</p>}
 
       {isLoading && <Loader />}
-      <ImageGallery images={images} onOpenModal={onOpenModal} />
+      <ImageGallery images={images} onImageClick={handleImageClick} />
 
       {images.length >= 12 && !isLoading && !error ? (
         <Button label="Load more" handleLoadMore={handleLoadMore} />
@@ -97,7 +98,7 @@ export const App = () => {
       )}
 
       {modal.showModal && (
-        <Modal onToggleModal={toggleModal} largeImageURL={largeImageURL} />
+        <Modal onClose={toggleModal} largeImageURL={modal.largeImageURL} />
       )}
     </div>
   );
