@@ -22,8 +22,8 @@ ImageGallery.propTypes = {
       webformatURL: PropTypes.string,
       largeImageURL: PropTypes.string,
     })
-  ),
-  onImageClick: PropTypes.func,
+  ).isRequired,
+  onImageClick: PropTypes.func.isRequired,
 };
 
 export default ImageGallery;

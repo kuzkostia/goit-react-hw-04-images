@@ -8,8 +8,8 @@ const Button = ({ label, handleLoadMore }) => (
 );
 
 Button.propTypes = {
-  label: PropTypes.string,
-  handleLoadMore: PropTypes.func,
+  label: PropTypes.string.isRequired,
+  handleLoadMore: PropTypes.func.isRequired,
 };
 
 export default Button;

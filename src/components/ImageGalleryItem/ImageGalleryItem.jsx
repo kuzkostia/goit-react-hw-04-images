@@ -13,9 +13,9 @@ const ImageGalleryItem = ({ webformatURL, largeImageURL, onImageClick }) => (
 );
 
 ImageGalleryItem.propTypes = {
-  webformatURL: PropTypes.string,
-  largeImageURL: PropTypes.string,
-  onImageClick: PropTypes.func,
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
+  onImageClick: PropTypes.func.isRequired,
 };
 
 export default ImageGalleryItem;
