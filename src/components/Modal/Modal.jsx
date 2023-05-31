@@ -10,15 +10,21 @@ const Modal = ({ onClose, largeImageURL }) => {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown); 
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      window.removeEventListener('keydown', handleKeyDown); 
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
 
+  const handleOverlayClick = e => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className={css.overlay} onClick={onClose}>
+    <div className={css.overlay} onClick={handleOverlayClick}>
       <div className={css.modal}>
         <img className={css.modal__image} src={largeImageURL} alt="" />
       </div>
